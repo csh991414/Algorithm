@@ -1,24 +1,34 @@
-n= int(input())
-m = int(input())
+import sys
+input = sys.stdin.readline
 
-graph = [[] for _ in range(n+1)]
+n= int(input())
+m= int(input())
+
+graph = [ [0] * (n+1) for _ in range(n+1)]
+
+visited = [0] * (n+1) 
+count =0
 
 for i in range(m):
     a,b = map(int,input().split())
-    graph[a].append(b)
-    graph[b].append(a)
-    #양방향그래프라서 둘다 값입력.
-    
+    graph[a][b] = 1
+    graph[b][a] = 1
 
-def DFS(v):
-    visited[v] =True
-    global count
-    count+=1
-    for i in graph[v]:
-        if not visited[i]:
-            DFS(i)
+def dfs(v):
+    if visited[v] ==0:
+        global count
+        visited[v]=1
+        count+=1
+        for i in range(1, n+1):
+            if graph[v][i] == 1 and visited[i] == 0:
+                dfs(i)
 
-visited = [False for _ in range(n+1)]
-count =-1
-DFS(1)
-print(count)
+
+    else:
+        return
+
+
+
+
+dfs(1)
+print(count-1)
