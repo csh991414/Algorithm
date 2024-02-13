@@ -1,24 +1,24 @@
 import sys
-input = sys.stdin.readline
 from collections import deque
+input = sys.stdin.readline
 
-max_num = 100000
-visited = [0] *(max_num +1)
-n,k = map(int,input().split())
-check = [0] *(max_num + 1)
+n,k= map(int,input().split())
+
+maxnum= 100001
+graph = [0] * maxnum # 횟수를 입력받음
+check = [0] * maxnum # 이전에 어디서 왔는지를 입력받음
+
 
 def past(now):
-    data = []
-    k= now
-
-    for _ in range(visited[k] + 1):
-        data.append(k)
-        k = check[k]
-
+    t=now
+    data=[]
+ 
+    for _ in range(graph[t] + 1):#횟수만큼 맨끝에서 과거로 돌아가면서 출력
+        data.append(t)
+        t = check[t]
     print(' '.join(map(str,data[::-1])))
 
-
-
+    
 
 
 def bfs():
@@ -26,16 +26,17 @@ def bfs():
     q.append(n)
 
     while q:
-        x= q.popleft()
-        if x == k:
-            print(visited[x])
+        x = q.popleft()
+
+        if x ==k:
+            print(graph[x])
             past(x)
             return
 
         for i in (x+1,x-1,x*2):
-            if 0<= i <= max_num and visited[i] ==0:
-                    visited[i] = visited[x]+1
-                    q.append(i)
-                    check[i] = x
+            if 0<=i<maxnum and graph[i] ==0:
+                graph[i] = graph[x]+1
+                q.append(i)
+                check[i] = x
 
 bfs()
